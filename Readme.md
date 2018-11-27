@@ -5,7 +5,7 @@ Two loss functions:
 	ii) To match SLV model (we don't know computation graph but neural net will find it eventually, hopefully)
 The first loss is our prior. This can be from the current state-of-the art known to us. The second loss tries to move our model towards the unknown model. First, we train with loss 1 to learn the prior compute graph. Then, with a lower learning rate loss 2 is used online.
 
-Input to the neural net is a coarse 2D grid of vol along delta and time (liquid instruments), while output is a much finer grid (calibrated vol). 
+Input to the neural net is a coarse 2D grid of vol along strike and time (liquid instruments), while output is a much finer grid (calibrated vol). 
 
 In the following experiments, known model is Black Cubic while unknown model is Dupire LV/Heston SLV. But the code can be used for any prior/posterior. 
 
