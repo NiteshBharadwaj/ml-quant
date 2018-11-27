@@ -20,7 +20,7 @@ python volmodel_test.py -data ..\data\vol_raw_data.csv -expID testVolModel
 ### Experiment 1 - Learning the prior:
 Using the known model ground-truth is created. Model is trained with full supervision. We can see that the network learns well to match the ground-truth.
 
-Results are presented as pricing error in USD per 1M EUR notional.
+Results are presented as pricing error in USD per 1M underlying qty.
 
 ### Experiment 2 - Learning the posterior:
 For various percentages of available calibrated vols from the unknown model, model behavior is shown as gif.
