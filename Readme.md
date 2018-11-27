@@ -1,4 +1,4 @@
-# Neural net to match volatility against SLV Models online.
+# Neural net to match volatility against Stochastic and Local Vol Models
 
 Two loss functions:
 	i) To have the output close to a known model (full computation graph is known)
