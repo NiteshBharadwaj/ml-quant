@@ -1,1 +1,2 @@
-expDir = ../exp
+expDir = '../exp'
+nThreads = 4

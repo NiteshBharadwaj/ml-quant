@@ -1,0 +1,8 @@
+==> Args:
+  DEBUG: 0
+  data: ..\data\vol_raw_data.csv
+  expID: testVolModel
+  saveDir: ../exp\testVolModel
+==> Args:
+  expDir: ../exp
+  nThreads: 4
