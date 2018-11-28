@@ -16,6 +16,7 @@ To test the vol models, run the following command. It will generate visualizatio
 ```
 python volmodel_test.py -data ..\data\vol_raw_data.csv -expID testVolModel
 ```
+![Vol Surface Img](vol_predictor/exp/testVolModel/vol_surface.png?raw=true "Vol Surfaces")
 
 ### Experiment 1 - Learning the prior:
 Using the known model ground-truth is created. Model is trained with full supervision. We can see that the network learns well to match the ground-truth.
