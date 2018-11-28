@@ -1,6 +1,8 @@
 import QuantLib as ql
 import math
-from .data_utils import get_ir_ts, get_implied_vols_sticky_strike
+from vol_models.data_utils import get_ir_ts, get_implied_vols_sticky_strike
+
+
 class VolModel:
     def __init__(self, vol_data):
         self.vol_data = vol_data

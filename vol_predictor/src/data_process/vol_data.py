@@ -4,6 +4,7 @@ class VolSmileData:
         self.rd = rd
         self.rf = rf
         self.vols = vols
+
 # Sticky Strike
 class VolSurfaceData:
     def __init__(self, underlying_name, market_date, spot_date, spot, strikes, smiles):
