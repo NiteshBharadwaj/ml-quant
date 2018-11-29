@@ -15,6 +15,7 @@ class Opts:
     def parse(self):
         self.init()
         self.opt = self.parser.parse_args()
+        self.opt.nThreads = ref.nThreads
         self.opt.saveDir = os.path.join(ref.expDir, self.opt.expID)
         if self.opt.DEBUG > 0:
             ref.nThreads = 1

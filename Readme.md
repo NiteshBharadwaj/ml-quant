@@ -16,16 +16,17 @@ To test the vol models, run the following command. It will generate visualizatio
 ```
 python volmodel_test.py -data ..\data\vol_raw_data.csv -expID testVolModel
 ```
-To create ground truth:
+![Vol Surface Img](vol_predictor/exp/testVolModel/vol_surface.png?raw=true "Vol Surfaces")
+Ground truth is created by shifting the input vols uniformly randomly by a max of 5% in either direction and recalibrating vol surface.
 ```
 python volmodel_create_gt.py -data ..\data\vol_raw_data.csv -volModel black_cubic
 ```
-
+ 
 ### Experiment 1 - Learning the prior:
-Using the known model ground-truth is created. Model is trained with full supervision. We can see that the network learns well to match the ground-truth.
-
-Results are presented as pricing error in USD per 1M underlying qty.
-
+Model is trained with full supervision on known model. 
+After 25 epochs, avg error in vol prediction (on test set) is 0.163%
+![Predicted_Vol_Surface](vol_predictor/exp/base_model_surface/base_model_surface.png?raw=true "Predicted Vol Surfaces")
+  
 ### Experiment 2 - Learning the posterior:
 For various percentages of available calibrated vols from the unknown model, model behavior is shown as gif.
 

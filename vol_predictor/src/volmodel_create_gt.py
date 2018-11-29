@@ -62,6 +62,7 @@ def save_annot(annot, opt, annot_name):
     for key in annot.keys():
         data_file[key] = annot[key]
     data_file.close()
+    print('Saved annot to ' + fname)
 
 
 def main():
