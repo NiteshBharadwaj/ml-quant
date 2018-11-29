@@ -25,6 +25,9 @@ python volmodel_create_gt.py -data ..\data\vol_raw_data.csv -volModel black_cubi
 ### Experiment 1 - Learning the prior:
 Model is trained with full supervision on known model. 
 After 25 epochs, avg error in vol prediction (on test set) is 0.163%
+```
+python nnmodel_basic.py -expID base_model -data ..\data\black_cubic_annot.h5 -train
+```
 ![Predicted_Vol_Surface](vol_predictor/exp/base_model_surface/base_model_surface.png?raw=true "Predicted Vol Surfaces")
   
 ### Experiment 2 - Learning the posterior:
