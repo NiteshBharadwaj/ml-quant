@@ -18,7 +18,7 @@ python volmodel_test.py -data ..\data\vol_raw_data.csv -expID testVolModel
 ```
 ![Vol Surface Img](vol_predictor/exp/testVolModel/vol_surface.png?raw=true "Vol Surfaces")
 Ground truth is created by shifting the input vols and recalibrating the surfaces. Bivariate normal pdf with mean and correlation chosen uniformly randomly is added to input vols.
-Figure below shows the created data.
+Figure below shows samples from the created data after calibration.
 ```
 python volmodel_create_gt.py -data ..\data\vol_raw_data.csv -volModel black_cubic
 ```
