@@ -5,10 +5,16 @@ from vol_models.calc_utils import get_vol_model, create_vol_grid
 from opts.volmodel_opts import VolModelOpts
 import os
 import h5py
+from visualization.visualize_vol_surface import visualize_vol_surface
 import numpy as np
+import random
 
 
 def create_gt(opt):
+    # Seed all sources of randomness to 0 for reproducibility
+    np.random.seed(0)
+    random.seed(0)
+
     data = opt.data
     n_rows = opt.nRows
     grid_size = opt.gridSize
@@ -40,6 +46,7 @@ def create_gt(opt):
         # Calibrate vol surface
         calibrated_vol, strike_low, strike_high, start_time, end_time = \
             create_vol_grid(vol_surface, grid_size, grid_size)
+        #visualize_vol_surface(vol_surface, strike_low, strike_high, start_time, end_time, name='Black Cubic Id ='+str(id), saveDir=opt.saveDir)
         spot = vol_data.spot
         # Flatten surface
         input_, output = flatten_surface(vol_data, calibrated_vol)

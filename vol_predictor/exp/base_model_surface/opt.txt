@@ -2,10 +2,10 @@
   DEBUG: 0
   LR: 0.001
   batchSize: 64
-  data: ..\data\black_cubic_annot.h5
+  data: ..\data_tmp\black_cubic_annot.h5
   dropLR: 10
   expID: base_model_surface
-  loadModel: ..\exp\base_model_surface\model_25.pth
+  loadModel: ..\exp\temp\model_25.pth
   nEpochs: 25
   nThreads: 4
   nnModel: linear

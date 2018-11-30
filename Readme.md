@@ -17,10 +17,12 @@ To test the vol models, run the following command. It will generate visualizatio
 python volmodel_test.py -data ..\data\vol_raw_data.csv -expID testVolModel
 ```
 ![Vol Surface Img](vol_predictor/exp/testVolModel/vol_surface.png?raw=true "Vol Surfaces")
-Ground truth is created by shifting the input vols uniformly randomly by a max of 5% in either direction and recalibrating vol surface.
+Ground truth is created by shifting the input vols and recalibrating the surfaces
 ```
 python volmodel_create_gt.py -data ..\data\vol_raw_data.csv -volModel black_cubic
 ```
+![Ground truth data](vol_predictor/exp/augment_vol/augment_vol_samples.png?raw=true "GT Created")
+Note: If you don't like what you see in above figure, help me with sourcing enough real data.
  
 ### Experiment 1 - Learning the prior:
 Model is trained with full supervision on known model. 

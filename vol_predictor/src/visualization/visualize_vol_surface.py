@@ -7,7 +7,8 @@ import os
 
 # Inspired from: http://gouthamanbalaraman.com/blog/volatility-smile-heston-model-calibration-quantlib-python.html
 
-def visualize_vol_surface_helper(X, Y, Z, name=None, saveDir=None, xlabel='Strikes', ylabel='Maturity(years)', zlabel='Volatility'):
+def visualize_vol_surface_helper(X, Y, Z, name=None, saveDir=None, xlabel='Strikes', ylabel='Maturity(years)',
+                                 zlabel='Volatility'):
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm,
@@ -34,10 +35,11 @@ def visualize_vol_surface(surface, strike_min, strike_max, t_min, t_max, name=No
     visualize_vol_surface_helper(X, Y, Z, name, saveDir)
 
 
-def visualize_vol_surface2(surface, plot_strikes, plot_years, name=None, saveDir=None):
+def visualize_vol_surface_calibrated(surface, plot_strikes, plot_years, name=None, saveDir=None):
     X, Y = np.meshgrid(plot_strikes, plot_years)
     Z = surface.transpose()
     visualize_vol_surface_helper(X, Y, Z, name, saveDir, xlabel='Moneyness')
+
 
 def visualize_vol_surface_overlap(surf1, surf2, strike_low, strike_high, start_time,
                                   end_time, nStrikes, nMats, saveDir=None):
@@ -45,6 +47,6 @@ def visualize_vol_surface_overlap(surf1, surf2, strike_low, strike_high, start_t
     strike_step = (strike_high - strike_low) / nStrikes
     plot_years = np.arange(start_time, end_time, time_step)
     plot_strikes = np.arange(strike_low, strike_high, strike_step)
-    visualize_vol_surface2(surf1, plot_strikes, plot_years, 'surface_nn_output', saveDir)
-    visualize_vol_surface2(surf2, plot_strikes, plot_years, 'surface_gt', saveDir)
-    visualize_vol_surface2(surf1 - surf2, plot_strikes, plot_years, 'diff', saveDir)
+    visualize_vol_surface_calibrated(surf1, plot_strikes, plot_years, 'surface_nn_output', saveDir)
+    visualize_vol_surface_calibrated(surf2, plot_strikes, plot_years, 'surface_gt', saveDir)
+    visualize_vol_surface_calibrated(surf1 - surf2, plot_strikes, plot_years, 'diff', saveDir)
