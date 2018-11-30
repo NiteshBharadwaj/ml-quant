@@ -17,16 +17,16 @@ To test the vol models, run the following command. It will generate visualizatio
 python volmodel_test.py -data ..\data\vol_raw_data.csv -expID testVolModel
 ```
 ![Vol Surface Img](vol_predictor/exp/testVolModel/vol_surface.png?raw=true "Vol Surfaces")
-Ground truth is created by shifting the input vols and recalibrating the surfaces
+Ground truth is created by shifting the input vols and recalibrating the surfaces. Bivariate normal pdf with mean and correlation chosen uniformly randomly is added to input vols.
+Figure below shows the created data.
 ```
 python volmodel_create_gt.py -data ..\data\vol_raw_data.csv -volModel black_cubic
 ```
 ![Ground truth data](vol_predictor/exp/augment_vol/augment_vol_samples.png?raw=true "GT Created")
-Note: If you don't like what you see in above figure, help me with sourcing enough real data.
  
 ### Experiment 1 - Learning the prior:
 Model is trained with full supervision on known model. 
-After 25 epochs, avg error in vol prediction (on test set) is 0.163%
+After 25 epochs, avg error in vol prediction (on test set) is 0.291% (gt vol range is 25% to 40%) 
 ```
 python nnmodel_basic.py -expID base_model -data ..\data\black_cubic_annot.h5 -train
 ```
