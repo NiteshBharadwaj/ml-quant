@@ -33,7 +33,7 @@ python nnmodel_basic.py -expID base_model -data ..\data\black_cubic_annot.h5 -tr
 ![Predicted Black Cubic](vol_predictor/exp/base_model_surface/base_model_surface.png?raw=true "Predicted Black Cubic")
   
 ### Experiment 2 - Learning the posterior:
-NN Model is trained on 5% of data with weights pre-initialized to predict prior. Avg Error in vol prediction is 3.89% for Heston and 4.09% for Dupire.  
+NN Model is trained on 5% of data with weights pre-initialized to predict prior. Avg Error in vol prediction is 3.89% for Heston (on test set) and 4.09% for Dupire (on test set).  
 Dupire NN Prediction:
 ![Predicted Dupire Local](vol_predictor/exp/finetuneLocal/local_surface.png?raw=true "Predicted Dupire Local")
 Heston NN Prediction:
