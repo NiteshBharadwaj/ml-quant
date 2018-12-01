@@ -2,6 +2,8 @@ import numpy as np
 from vol_models.black_cubic import BlackCubic
 from vol_models.dupire_local import DupireLocal
 from vol_models.heston_slv import HestonSLV
+from visualization.visualize_vol_surface import visualize_vol_surface_calibrated
+
 
 def get_vol_model(vol_model_str):
     if vol_model_str == 'black_cubic':
@@ -22,9 +24,12 @@ def create_vol_grid(vol_surface, grid_size_str, grid_size_time):
     times = np.arange(start_time, end_time, time_step)
     strikes = np.arange(strike_low, strike_high, strike_step)
     X, Y = np.meshgrid(times, strikes)
-    Z = np.array([vol_surface.get_vol(y, x)
-                  for xr, yr in zip(X, Y)
-                  for x, y in zip(xr, yr)]
-                 ).reshape(len(X), len(X[0]))
+    Z = np.zeros((strikes.shape[0], times.shape[0]))
+    for i in range(times.shape[0]):
+        for j in range(strikes.shape[0]):
+            strike = strikes[j]
+            time = times[i]
+            Z[j, i] = vol_surface.get_vol(strike, time, True) if j == 0 else vol_surface.get_vol(strike, time, False)
     calibrated = {'strikes': Y, 'times': X, 'vols': Z}
+    # visualize_vol_surface_calibrated(calibrated, strikes, times)
     return calibrated, strike_low, strike_high, start_time, end_time

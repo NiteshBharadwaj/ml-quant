@@ -14,16 +14,24 @@ def main():
     random.seed(0)
 
     opt = NNModelOpts().parse()
+
+    # Create data loaders
     train_loader, test_loader = create_data_loaders(opt)
+
+    # Create nn model
     model, loss = create_model(opt, train_loader.dataset[0])
     if not opt.loadModel == 'none':
         model = torch.load(opt.loadModel).cuda()
+
+    # Train if necessary
     if opt.train:
         train_model(train_loader, test_loader, model, loss, opt.nEpochs, opt.valInterval, opt.LR, opt.dropLR, opt.saveDir)
+    # Test
     loss_stat, vol_err_stat = test_model(test_loader, model, loss)
     print('Test loss: ' + str(loss_stat))
     print('Test vol: ' + str(vol_err_stat))
-    #print('Pricing error: ' + str(vol_err_stat) + ' USD per underlying unit')
+
+    # Visualize results
     visualize_res(test_loader, model, opt.saveDir)
 
 if __name__ == '__main__':

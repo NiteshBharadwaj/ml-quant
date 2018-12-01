@@ -8,6 +8,7 @@ def create_data_loaders(opt):
         tr_dataset,
         batch_size=opt.batchSize,
         shuffle=True if opt.DEBUG == 0 else False,
+        drop_last=True,
         num_workers=opt.nThreads
     )
     test_loader = torch.utils.data.DataLoader(

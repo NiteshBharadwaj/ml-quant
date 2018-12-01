@@ -7,7 +7,7 @@ class VolModel:
     def __init__(self, vol_data):
         self.vol_data = vol_data
         self.init_defaults()
-    def get_vol(self, strike, time):
+    def get_vol(self, strike, time, recalibrate=True):
         pass
     def get_variance(self, strike, time):
         vol = self.get_vol(strike, time)

@@ -5,7 +5,6 @@ from vol_models.calc_utils import get_vol_model, create_vol_grid
 from opts.volmodel_opts import VolModelOpts
 import os
 import h5py
-from visualization.visualize_vol_surface import visualize_vol_surface
 import numpy as np
 import random
 
@@ -15,6 +14,7 @@ def create_gt(opt):
     np.random.seed(0)
     random.seed(0)
 
+    # Read opts
     data = opt.data
     n_rows = opt.nRows
     grid_size = opt.gridSize
@@ -39,27 +39,32 @@ def create_gt(opt):
     annot['start_time'] = []
     annot['end_time'] = []
     annot['id'] = []
-    id = 0
+    id = -1
     for vol_data in data_augmented:
-        # Get vol model
-        vol_surface = vol_model_fn(vol_data)
-        # Calibrate vol surface
-        calibrated_vol, strike_low, strike_high, start_time, end_time = \
-            create_vol_grid(vol_surface, grid_size, grid_size)
-        #visualize_vol_surface(vol_surface, strike_low, strike_high, start_time, end_time, name='Black Cubic Id ='+str(id), saveDir=opt.saveDir)
-        spot = vol_data.spot
-        # Flatten surface
-        input_, output = flatten_surface(vol_data, calibrated_vol)
-        annot['input'].append(input_)
-        annot['output'].append(output)
-        annot['strike_low'].append(strike_low/spot)
-        annot['strike_high'].append(strike_high/spot)
-        annot['start_time'].append(start_time)
-        annot['end_time'].append(end_time)
-        annot['grid_size_str'] = grid_size
-        annot['grid_size_mat'] = grid_size
-        annot['id'].append(id)
-        id += 1
+        try:
+            id += 1
+            # Get vol model
+            vol_surface = vol_model_fn(vol_data)
+            # Calibrate vol surface
+            calibrated_vol, strike_low, strike_high, start_time, end_time = \
+                create_vol_grid(vol_surface, grid_size, grid_size)
+
+            spot = vol_data.spot
+            # Flatten surface
+            input_, output = flatten_surface(vol_data, calibrated_vol)
+
+            annot['input'].append(input_)
+            annot['output'].append(output)
+            annot['strike_low'].append(strike_low/spot)
+            annot['strike_high'].append(strike_high/spot)
+            annot['start_time'].append(start_time)
+            annot['end_time'].append(end_time)
+            annot['grid_size_str'] = grid_size
+            annot['grid_size_mat'] = grid_size
+            annot['id'].append(id)
+        except:
+            # Calibration failed
+            continue
     return annot
 
 
@@ -69,7 +74,8 @@ def save_annot(annot, opt, annot_name):
     for key in annot.keys():
         data_file[key] = annot[key]
     data_file.close()
-    print('Saved annot to ' + fname)
+    nIds = len(annot['id'])
+    print('Saved {} samples as annot to {}'.format(nIds, fname))
 
 
 def main():

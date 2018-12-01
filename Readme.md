@@ -10,7 +10,7 @@ In all the experiments, known model is Black Cubic while unknown model is Dupire
 Input is a coarse 2D grid of vol along strike and time (liquid instruments), while output is i) a much finer grid (calibrated vol surface) ii) a single point vol
 
 ### Experiment 0 - Creating vol surface (ground-truth creation):
-[Quantlib](https://www.quantlib.org/) and it's [python hook](https://pypi.org/project/QuantLib-Python/) is used for vol surface calculations. For Heston, vol is interpolated on liquid instruments on time axis and then these pseudo-liquid instruments are used for calibration. For local vol, black cubic is used as the underlying implied vol surface and dupire formula on the implied vols and it's derivatives is directly used. Black Cubic is a bicubic interpolation along strike and maturity axis. Sticky Strike is the convention followed throughout. This [tutorial](http://gouthamanbalaraman.com/blog/volatility-smile-heston-model-calibration-quantlib-python.html) is the starting point for Heston using quantlib-python. Note: We are simulating Dupire/Heston as unknown. Ideally, we obtain ground-truth data from a source application.
+[Quantlib](https://www.quantlib.org/) and it's [python hook](https://pypi.org/project/QuantLib-Python/) are used for vol surface calculations. For Heston, vol is interpolated on liquid instruments along time axis and then these pseudo-liquid instruments are used for calibration. Once calibrated, black vols are implied from Heston prices. For local vol, black cubic is used as the underlying implied vol surface and dupire formula on the implied vols and it's derivatives is directly used. Black Cubic is a bicubic interpolation along strike and maturity axis. Sticky Strike is the convention followed throughout. This [tutorial](http://gouthamanbalaraman.com/blog/volatility-smile-heston-model-calibration-quantlib-python.html) is the starting point for Heston using quantlib-python. Note: We are simulating Dupire/Heston as unknown. Ideally, we obtain ground-truth data from an upstream application.
 
 To test the vol models, run the following command. It will generate visualizations in ../exp/ directory:
 ```
@@ -18,44 +18,32 @@ python volmodel_test.py -data ..\data\vol_raw_data.csv -expID testVolModel
 ```
 ![Vol Surface Img](vol_predictor/exp/testVolModel/vol_surface.png?raw=true "Vol Surfaces")
 Ground truth is created by shifting the input vols and recalibrating the surfaces. Bivariate normal pdf with mean and correlation chosen uniformly randomly is added to input vols.
-Figure below shows samples from the created data after calibration.
+Figure below shows samples from the created data post calibration.
 ```
 python volmodel_create_gt.py -data ..\data\vol_raw_data.csv -volModel black_cubic
 ```
 ![Ground truth data](vol_predictor/exp/augment_vol/augment_vol_samples.png?raw=true "GT Created")
  
 ### Experiment 1 - Learning the prior:
-Model is trained with full supervision on known model. 
-After 25 epochs, avg error in vol prediction (on test set) is 0.291% (gt vol range is 25% to 40%) 
+NN Model is trained with full supervision on known model. 
+After 25 epochs, avg error in vol prediction (on test set) is 0.291% 
 ```
 python nnmodel_basic.py -expID base_model -data ..\data\black_cubic_annot.h5 -train
 ```
-![Predicted_Vol_Surface](vol_predictor/exp/base_model_surface/base_model_surface.png?raw=true "Predicted Vol Surfaces")
+![Predicted Black Cubic](vol_predictor/exp/base_model_surface/base_model_surface.png?raw=true "Predicted Black Cubic")
   
 ### Experiment 2 - Learning the posterior:
-For various percentages of available calibrated vols from the unknown model, model behavior is shown as gif.
+NN Model is trained on 5% of data. Avg Error in vol prediction is 3.89% for Heston and 4.09% for Dupire.
+![Predicted Dupire Local](vol_predictor/exp/finetuneLocal/local_surface.png?raw=true "Predicted Dupire Local")
+![Predicted Heston SLV](vol_predictor/exp/finetuneSLV/slv_surface.png?raw=true "Predicted Heston SLV")
 
+Conclusion:
+NN learns black cubic well but the performance on Heston and Dupire is not useful for practical use. This can be attributed to two factors:
+i) LV and SLV are very sensitive to input vols and with current data augmentation, this has led wildly fluctuating LV and SLV models even when black surface has changed very little.
+Also, data augmentation is not arbitrage free leading to impractical surfaces.
+ii) 5% data is too little for a NN to learn.  SLV calibration takes 5 seconds per surface (100 x 100 grid) using quantlib which is a practical limitation on data.
+Further, LV calibration fails  in over 90% of cases because our input vol surface is not arbitrage free.
 
-
-To install dependencies:
-```
-pip install requirements.txt
-```
-
-To test:
-i) Download trained models from _ and place in models folder.
-ii) Place raw market quotes in /data/ folder
-
-Run the following commands:
-```
-```
-To train:
-
-Data Preparation:
-Sample data is in /data/ folder. Replace it with your data in the same format. It requires access to reuters. You can also replace processed data files in order to change the prior and posterior. 
-
-Run this command to train:
-```
-```
+Both of the above reasons beg for more data which is the holy grail of a NN. Unfortunately, implied vols data is very costly to obtain.  
 
 

@@ -1,0 +1,19 @@
+==> Args:
+  DEBUG: 0
+  LR: 0.001
+  batchSize: 64
+  data: ..\data_tmp\heston_slv_annot.h5
+  dropLR: 20.0
+  expID: finetuneSLV
+  loadModel: ..\exp\base_model_surface\model_25.pth
+  nEpochs: 100
+  nThreads: 4
+  nnModel: linear
+  saveDir: ../exp\finetuneSLV
+  train: True
+  trainType: surface
+  valInterval: 5
+  volModel: black_cubic
+==> Args:
+  expDir: ../exp
+  nThreads: 4

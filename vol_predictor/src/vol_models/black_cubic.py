@@ -9,5 +9,5 @@ class BlackCubic(VolModel):
                                                self.expiration_dates, self.strikes,
                                                self.implied_vols, self.day_count)
 
-    def get_vol(self, strike, time):
+    def get_vol(self, strike, time, recalibrate=True):
         return self.surface.blackVol(time, strike)

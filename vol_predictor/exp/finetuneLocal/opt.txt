@@ -1,0 +1,19 @@
+==> Args:
+  DEBUG: 0
+  LR: 0.001
+  batchSize: 64
+  data: ..\data\dupire_local_annot.h5
+  dropLR: 20.0
+  expID: finetuneLocal
+  loadModel: ..\exp\base_model_surface\model_25.pth
+  nEpochs: 50
+  nThreads: 4
+  nnModel: linear
+  saveDir: ../exp\finetuneLocal
+  train: True
+  trainType: surface
+  valInterval: 5
+  volModel: black_cubic
+==> Args:
+  expDir: ../exp
+  nThreads: 4

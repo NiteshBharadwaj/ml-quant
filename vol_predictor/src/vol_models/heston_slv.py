@@ -32,7 +32,7 @@ class HestonSLV(VolModel):
             self.calibrate_heston(strike, time)
         # Imply black vol from heston price
         exercise = EuropeanExercise(self.calculation_date+int(time*365.0))
-        payoff = PlainVanillaPayoff(Option.Put, strike)
+        payoff = PlainVanillaPayoff(Option.Call, strike)
         option = EuropeanOption(payoff, exercise)
         option.setPricingEngine(self.engine)
         h_price = option.NPV()
