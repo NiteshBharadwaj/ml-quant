@@ -41,7 +41,7 @@ Heston NN Prediction:
 
 Conclusion:
 NN learns black cubic well but the performance on Heston and Dupire is not useful for practical use. This can be attributed to two factors:
-i) LV and SLV are very sensitive to input vols and with current data augmentation, this has led wildly fluctuating LV and SLV models even when black surface has changed very little.
+i) LV and SLV are very sensitive to input vols and with current data augmentation, this has led to wildly fluctuating LV and SLV models even when black surface has changed very little.
 Also, data augmentation is not arbitrage free leading to impractical surfaces.
 ii) 5% data is too little for a NN to learn.  SLV calibration takes 5 seconds per surface (100 x 100 grid) using quantlib which is a practical limitation on data.
 Further, LV calibration fails in over 90% of cases because our input vol surface is not arbitrage free.
