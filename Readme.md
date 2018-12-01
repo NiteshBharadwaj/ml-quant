@@ -33,7 +33,7 @@ python nnmodel_basic.py -expID base_model -data ..\data\black_cubic_annot.h5 -tr
 ![Predicted Black Cubic](vol_predictor/exp/base_model_surface/base_model_surface.png?raw=true "Predicted Black Cubic")
   
 ### Experiment 2 - Learning the posterior:
-NN Model is trained on 5% of data. Avg Error in vol prediction is 3.89% for Heston and 4.09% for Dupire.
+NN Model is trained on 5% of data with weights pre-initialized to predict prior. Avg Error in vol prediction is 3.89% for Heston and 4.09% for Dupire.  
 Dupire NN Prediction:
 ![Predicted Dupire Local](vol_predictor/exp/finetuneLocal/local_surface.png?raw=true "Predicted Dupire Local")
 Heston NN Prediction:
@@ -46,6 +46,5 @@ Also, data augmentation is not arbitrage free leading to impractical surfaces.
 ii) 5% data is too little for a NN to learn.  SLV calibration takes 5 seconds per surface (100 x 100 grid) using quantlib which is a practical limitation on data.
 Further, LV calibration fails in over 90% of cases because our input vol surface is not arbitrage free.
 
-Both of the above reasons beg for more data which is the holy grail of a NN. Unfortunately, implied vols data is very costly to obtain.  
-
+Both of the above reasons beg for more data which is the holy grail of a NN. Unfortunately, implied vols data is very costly to obtain. 
 
